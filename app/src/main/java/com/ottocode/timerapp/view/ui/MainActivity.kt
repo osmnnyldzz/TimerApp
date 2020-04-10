@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.widget.SeekBar
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.ottocode.timerapp.R
 import com.ottocode.timerapp.databinding.ActivityMainBinding
 import com.ottocode.timerapp.viewmodel.TimerViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 @Suppress("SpellCheckingInspection")
@@ -66,6 +69,79 @@ class MainActivity : AppCompatActivity() {
             resetTimer()
         }
 
+        mBind.hourSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mBind.hourTime.text = hour_seek_bar.progress.toString()
+                mBind.hourPicker.setText(hour_seek_bar.progress.toString())
+
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                mBind.hourTime.text = hour_seek_bar.progress.toString()
+                mBind.hourPicker.setText(hour_seek_bar.progress.toString())
+
+            }
+
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                mBind.hourTime.text = hour_seek_bar.progress.toString()
+                Toast.makeText(this@MainActivity,
+                    "Progress is: " + hour_seek_bar.progress,
+                    Toast.LENGTH_SHORT).show()
+            }
+
+
+        })
+        mBind.minuteSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mBind.minuteTime.text = minute_seek_bar.progress.toString()
+                mBind.minutePicker.setText(minute_seek_bar.progress.toString())
+
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                mBind.minuteTime.text = minute_seek_bar.progress.toString()
+                mBind.minutePicker.setText(minute_seek_bar.progress.toString())
+            }
+
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                mBind.minuteTime.text = minute_seek_bar.progress.toString()
+                mBind.minutePicker.setText(minute_seek_bar.progress.toString())
+                Toast.makeText(this@MainActivity,
+                    "Progress is: " + minute_seek_bar.progress,
+                    Toast.LENGTH_SHORT).show()
+            }
+
+
+        })
+        mBind.secondSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mBind.secondTime.text = second_seek_bar.progress.toString()
+                mBind.secondPicker.setText(second_seek_bar.progress.toString())
+
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                mBind.secondTime.text = second_seek_bar.progress.toString()
+                mBind.secondPicker.setText(second_seek_bar.progress.toString())
+            }
+
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    mBind.secondTime.text = second_seek_bar.progress.toString()
+                    mBind.secondPicker.setText(second_seek_bar.progress.toString())
+
+                    Toast.makeText(this@MainActivity,
+                    "Progress is: " + second_seek_bar.progress,
+                    Toast.LENGTH_SHORT).show()
+            }
+
+
+        })
 
     }
 
@@ -83,7 +159,6 @@ class MainActivity : AppCompatActivity() {
         mTimeLeftInMillis = mStartTimeInMillis //Kalan süreyi Başlangıç değişkeniyle eşitledik.
         updateCountDownText()
     }
-
 
     private fun startTimer() {
         mCountDownTimer = object : CountDownTimer(mTimeLeftInMillis, 1000) {
