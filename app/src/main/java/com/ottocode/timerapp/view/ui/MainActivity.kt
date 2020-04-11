@@ -3,7 +3,6 @@ package com.ottocode.timerapp.view.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -19,6 +18,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mBind: ActivityMainBinding
     private lateinit var model: TimerViewModel
 
+    companion object {
+        private var mInputHour: String = ""
+        private var mMillisInputHour: Long = 0
+
+        private var mInputMinute: String = ""
+        private var mMillisInputMinute: Long = 0
+
+        private var mInputSecond: String = ""
+        private var mMillisInputSecond: Long = 0
+
+    }
 
     // Milisaniye cinsinden başlama zamanı. Başlangıçta 0 olarak initialize ettik.
     private var mStartTimeInMillis: Long = 0
@@ -41,21 +51,9 @@ class MainActivity : AppCompatActivity() {
         mBind.lifecycleOwner = this
         model = TimerViewModel()
         mBind.timeVM = model
+        setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
 
 
-        mBind.setTime.setOnClickListener {
-            val inputHour = mBind.hourPicker.text.toString()        // Eğer Saat değeri girilirse.
-            val inputMinute = mBind.minutePicker.text.toString()    // Eğer Dakika değeri girilirse.
-            val inputSecond = mBind.secondPicker.text.toString()    // Eğer Saniye değeri girilirse.
-
-            val millisInputHour   = inputHour.toLong() * 3600000         // Saat -> 3,600,000 ile milisaniye yaptık.
-            val millisInputMinute = inputMinute.toLong() * 60000      // Dakika -> 60,000 ile milisaniye yaptık.
-            val millisInputSecond = inputSecond.toLong() * 1000      // Saniye -> 1,000 ile milisaniye yaptık.
-
-
-            val resultMillisInputs = millisInputHour + millisInputMinute + millisInputSecond
-            setTime(resultMillisInputs)
-        }
         mBind.startButton.setOnClickListener {
 
             if (mTimerRunning) {
@@ -69,10 +67,17 @@ class MainActivity : AppCompatActivity() {
             resetTimer()
         }
 
-        mBind.hourSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        mBind.hourSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+                mInputHour = hour_seek_bar.progress.toString()
+                mMillisInputHour = mInputHour.toLong() * 3600000
+
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+
                 mBind.hourTime.text = hour_seek_bar.progress.toString()
-                mBind.hourPicker.setText(hour_seek_bar.progress.toString())
+                model.hour.value = hour_seek_bar.progress.toString()
 
 
             }
@@ -86,17 +91,25 @@ class MainActivity : AppCompatActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mBind.hourTime.text = hour_seek_bar.progress.toString()
-                Toast.makeText(this@MainActivity,
+                Toast.makeText(
+                    this@MainActivity,
                     "Progress is: " + hour_seek_bar.progress,
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
 
         })
-        mBind.minuteSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        mBind.minuteSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+                mInputMinute = minute_seek_bar.progress.toString()
+                mMillisInputMinute = mInputMinute.toLong() * 60000
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+
                 mBind.minuteTime.text = minute_seek_bar.progress.toString()
-                mBind.minutePicker.setText(minute_seek_bar.progress.toString())
+                model.minute.value = minute_seek_bar.progress.toString()
 
 
             }
@@ -110,17 +123,26 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mBind.minuteTime.text = minute_seek_bar.progress.toString()
                 mBind.minutePicker.setText(minute_seek_bar.progress.toString())
-                Toast.makeText(this@MainActivity,
+                Toast.makeText(
+                    this@MainActivity,
                     "Progress is: " + minute_seek_bar.progress,
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
 
         })
-        mBind.secondSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        mBind.secondSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+                mInputSecond = second_seek_bar.progress.toString()
+                mMillisInputSecond = mInputSecond.toLong() * 1000
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+
                 mBind.secondTime.text = second_seek_bar.progress.toString()
-                mBind.secondPicker.setText(second_seek_bar.progress.toString())
+
+                model.second.value = second_seek_bar.progress.toString()
 
 
             }
@@ -131,13 +153,15 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    mBind.secondTime.text = second_seek_bar.progress.toString()
-                    mBind.secondPicker.setText(second_seek_bar.progress.toString())
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                mBind.secondTime.text = second_seek_bar.progress.toString()
+                mBind.secondPicker.setText(second_seek_bar.progress.toString())
 
-                    Toast.makeText(this@MainActivity,
+                Toast.makeText(
+                    this@MainActivity,
                     "Progress is: " + second_seek_bar.progress,
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
 
@@ -145,8 +169,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setTime(resultMillisInputs: Long) {
-        mStartTimeInMillis = resultMillisInputs // Toplam milisaniyeleri başlangıç değişkenine atadık.
+
+    private fun setTime(hour: Long, minute: Long, second: Long) {
+
+        mStartTimeInMillis = hour + minute + second // Toplam milisaniyeleri başlangıç değişkenine atadık.
         resetTimer()
     }
 

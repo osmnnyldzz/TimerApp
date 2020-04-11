@@ -159,15 +159,7 @@
                         android:layout_marginTop="7dp"
                         android:background="@drawable/cancelbutton" />
 
-                    <Button
-                        android:id="@+id/setTime"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginTop="18dp"
-                        android:background="@color/text_color"
-                        android:text="set" />
+
                 </FrameLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -225,7 +217,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/defaultpicked"
-                                    android:text=""
+                                    android:text="@={timeVM.hour}"
                                     android:textColor="@color/text_color"
                                     android:textColorHint="@color/text_color"
                                     android:textSize="28sp"
@@ -283,7 +275,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/defaultpicked"
-                                    android:text=""
+                                    android:text="@={timeVM.minute}"
                                     android:textColor="@color/text_color"
                                     android:textColorHint="@color/text_color"
                                     android:textSize="28sp"
@@ -342,7 +334,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/defaultpicked"
-                                    android:text=""
+                                    android:text="@={timeVM.second}"
                                     android:textColor="@color/text_color"
                                     android:textColorHint="@color/text_color"
                                     android:textSize="28sp"
