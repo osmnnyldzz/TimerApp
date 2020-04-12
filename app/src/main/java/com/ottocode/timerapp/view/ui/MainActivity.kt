@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -57,20 +58,17 @@ class MainActivity : AppCompatActivity() {
         setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
 
 
+        mBind.stopButton.setOnClickListener {
+            pauseTimer()
+        }
         mBind.startButton.setOnClickListener {
-
-            if (mTimerRunning) {
-                pauseTimer()
-            } else {
-                startTimer()
-            }
-
+            startTimer()
         }
         mBind.resetButton.setOnClickListener {
             resetTimer()
         }
 
-        mBind.hourPicker.addTextChangedListener(object: TextWatcher{
+        mBind.hourPicker.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 model.hourTime.value = model.hour.value
 
@@ -83,11 +81,12 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {1
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
 
         })
-        mBind.minutePicker.addTextChangedListener(object :TextWatcher{
+        mBind.minutePicker.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 model.minuteTime.value = model.minute.value
 
@@ -100,11 +99,12 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
 
         })
-        mBind.secondPicker.addTextChangedListener(object :TextWatcher{
+        mBind.secondPicker.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 model.secondTime.value = model.second.value
                 mInputSecond = model.second.value.toString()
@@ -146,11 +146,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mBind.hourTime.text = hour_seek_bar.progress.toString()
-                Toast.makeText(
-                    this@MainActivity,
-                    "Progress is: " + hour_seek_bar.progress,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
 
 
@@ -178,11 +173,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mBind.minuteTime.text = minute_seek_bar.progress.toString()
                 mBind.minutePicker.setText(minute_seek_bar.progress.toString())
-                Toast.makeText(
-                    this@MainActivity,
-                    "Progress is: " + minute_seek_bar.progress,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
 
 
@@ -211,12 +201,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mBind.secondTime.text = second_seek_bar.progress.toString()
                 mBind.secondPicker.setText(second_seek_bar.progress.toString())
-
-                Toast.makeText(
-                    this@MainActivity,
-                    "Progress is: " + second_seek_bar.progress,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
 
 
@@ -224,16 +208,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     private fun setTime(hour: Long, minute: Long, second: Long) {
 
-        mStartTimeInMillis = hour + minute + second // Toplam milisaniyeleri başlangıç değişkenine atadık.
+        mStartTimeInMillis =
+            hour + minute + second // Toplam milisaniyeleri başlangıç değişkenine atadık.
         resetTimer()
     }
 
     private fun pauseTimer() {
         mCountDownTimer.cancel()
         mTimerRunning = false
+        mBind.stopButton.visibility = View.INVISIBLE
+        mBind.startButton.visibility = View.VISIBLE
+
     }
 
     private fun resetTimer() {
@@ -257,7 +244,8 @@ class MainActivity : AppCompatActivity() {
             .start()
 
         mTimerRunning = true
-        // Buraya Stop düğmesi koyacağız. SetImage gibi bir şey ile
+        mBind.stopButton.visibility = View.VISIBLE
+        mBind.startButton.visibility = View.INVISIBLE
     }
 
     private fun updateCountDownText() {
