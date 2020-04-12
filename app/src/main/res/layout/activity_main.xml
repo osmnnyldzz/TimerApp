@@ -57,7 +57,9 @@
                     android:layout_marginLeft="45dp"
                     android:layout_marginTop="105dp"
                     android:fontFamily="@font/rubik"
-                    android:text="00"
+                    android:hint="00"
+                    android:textColorHint="@color/text_color"
+                    android:text="@={timeVM.hourTime}"
                     android:textColor="@color/text_color"
                     android:textSize="50sp" />
                 <TextView
@@ -79,7 +81,9 @@
                     android:layout_marginLeft="115dp"
                     android:layout_marginTop="105dp"
                     android:fontFamily="@font/rubik"
-                    android:text="00"
+                    android:hint="00"
+                    android:textColorHint="@color/text_color"
+                    android:text="@={timeVM.minuteTime}"
                     android:textColor="@color/text_color"
                     android:textSize="50sp" />
                 <TextView
@@ -100,7 +104,9 @@
                     android:layout_marginLeft="185dp"
                     android:layout_marginTop="105dp"
                     android:fontFamily="@font/rubik"
-                    android:text="00"
+                    android:hint="00"
+                    android:textColorHint="@color/text_color"
+                    android:text="@={timeVM.secondTime}"
                     android:textColor="@color/text_color"
                     android:textSize="50sp" />
 
@@ -234,7 +240,7 @@
                                     android:layout_height="wrap_content"
                                     android:paddingStart="30dp"
                                     android:paddingLeft="35dp"
-                                    android:max="24"
+                                    android:max="23"
                                     android:progress="0"
                                     android:thumb="@drawable/thumb_image"
                                     app:layout_constraintBottom_toBottomOf="parent"

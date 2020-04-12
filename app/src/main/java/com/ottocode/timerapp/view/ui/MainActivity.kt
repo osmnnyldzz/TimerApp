@@ -3,6 +3,8 @@ package com.ottocode.timerapp.view.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -10,6 +12,7 @@ import com.ottocode.timerapp.R
 import com.ottocode.timerapp.databinding.ActivityMainBinding
 import com.ottocode.timerapp.viewmodel.TimerViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.w3c.dom.Text
 import java.util.*
 
 @Suppress("SpellCheckingInspection")
@@ -67,6 +70,58 @@ class MainActivity : AppCompatActivity() {
             resetTimer()
         }
 
+        mBind.hourPicker.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                model.hourTime.value = model.hour.value
+
+                mInputHour = model.hour.value.toString()
+                mMillisInputHour = mInputHour.toLong() * 3600000
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {1
+            }
+
+        })
+        mBind.minutePicker.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                model.minuteTime.value = model.minute.value
+
+                mInputMinute = model.minute.value.toString()
+                mMillisInputMinute = mInputMinute.toLong() * 60000
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        mBind.secondPicker.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                model.secondTime.value = model.second.value
+                mInputSecond = model.second.value.toString()
+                mMillisInputSecond = mInputSecond.toLong() * 1000
+
+                setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
         mBind.hourSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
@@ -76,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
                 setTime(mMillisInputHour, mMillisInputMinute, mMillisInputSecond)
 
-                mBind.hourTime.text = hour_seek_bar.progress.toString()
+                model.hourTime.value = hour_seek_bar.progress.toString()
                 model.hour.value = hour_seek_bar.progress.toString()
 
 
