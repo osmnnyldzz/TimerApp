@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="timeVM"
             type="com.ottocode.timerapp.viewmodel.TimerViewModel" />
@@ -18,13 +17,13 @@
         tools:context=".view.ui.MainActivity">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0px"
             android:layout_weight="0.50">
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/time_screen"
@@ -32,6 +31,8 @@
                     android:layout_height="305dp"
                     android:layout_marginStart="55dp"
                     android:layout_marginLeft="55dp"
+                    android:layout_marginRight="55dp"
+                    android:layout_marginEnd="55dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/timscreen" />
 
@@ -247,7 +248,7 @@
 
                             <SeekBar
                                 android:id="@+id/hour_seek_bar"
-                                android:layout_width="230dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="70dp"
                                 android:layout_marginLeft="85dp"
@@ -305,7 +306,7 @@
 
                             <SeekBar
                                 android:id="@+id/minute_seek_bar"
-                                android:layout_width="230dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="70dp"
                                 android:layout_marginLeft="85dp"
@@ -361,7 +362,7 @@
 
                             <SeekBar
                                 android:id="@+id/second_seek_bar"
-                                android:layout_width="230dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="70dp"
                                 android:layout_marginLeft="85dp"
